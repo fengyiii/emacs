@@ -35,6 +35,7 @@
 (require 'init-git)
 (require 'init-cc)
 (require 'init-markdown)
+(require 'init-tab)
 
 
 
