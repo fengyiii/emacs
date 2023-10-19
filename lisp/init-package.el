@@ -225,7 +225,11 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
   :ensure t
   :after (treemacs lsp))
 
-
+;; 自动保存
+(use-package super-save
+  :ensure t
+  :config
+  (super-save-mode +1))
 
 (provide 'init-package)
 ;;; init-package.el ends here
