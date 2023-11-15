@@ -181,6 +181,6 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
    :map org-mode-map
    ("C-c C-q" . counsel-org-tag)))  
 
-
+(provide 'init-latex)
 
 ;;; init-latex.el ends here

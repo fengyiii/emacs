@@ -6,3 +6,7 @@
 /snippets
 /transient
 /elpa
+#recentf#
+/.cache
+.lsp-session-v1
+

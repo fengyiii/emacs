@@ -41,6 +41,24 @@
   :after (projectile)
   :init (counsel-projectile-mode))
 
+;;(use-package ivy-xref
+;;  :ensure t
+;;  :after (lsp-mode))
+;;
+;;
+;;(defun my/lsp-setup ()
+;;  (let ((root (projectile-project-root))
+;;        (include-path (concat (projectile-project-root) "/include")))
+;;    (when root
+;;      (setq-local lsp-clients-clangd-args
+;;                  (list (concat "--compile-commands-dir=" root)
+;;                        (concat "--header-insertion=never")
+;;                        (concat "--path-mappings={" include-path ",/usr/include}"))))))
+;;
+;;(add-hook 'lsp-mode-hook 'my/lsp-setup)
+
+
+
 
 
 (provide 'init-lsp)

@@ -1,0 +1,24 @@
+;; Emacs-W3 HTTP cookies file
+;; Automatically generated file!!! DO NOT EDIT!!!
+
+(setq url-cookie-storage
+ '(("cn.bing.com"
+  [url-cookie "MUIDB" "380A648DD4EA6C0938B57748D5A06D40" "Wed, 04-Dec-2024 07:52:16 GMT" "/" "cn.bing.com" nil])
+ ("dingtalk.com"
+  [url-cookie "cna" "8yYAszOdWeuA4PyhlFX1eElQ" "日 11月 02 07:54:26 2053 GMT" "/" "dingtalk.com" nil])
+ (".bing.com"
+  [url-cookie "MUID" "380A648DD4EA6C0938B57748D5A06D40" "Wed, 04-Dec-2024 07:52:01 GMT" "/" ".bing.com" nil]
+  [url-cookie "_EDGE_V" "1" "Wed, 04-Dec-2024 07:52:01 GMT" "/" ".bing.com" nil]
+  [url-cookie "SRCHD" "AF=NOFORM" "Mon, 10-Nov-2025 07:52:01 GMT" "/" ".bing.com" nil]
+  [url-cookie "SRCHUID" "V=2&GUID=1E6E0C1AA17E4D198910BF4E8746A484&dmnchg=1" "Mon, 10-Nov-2025 07:52:01 GMT" "/" ".bing.com" nil]
+  [url-cookie "SRCHUSR" "DOB=20231110" "Mon, 10-Nov-2025 07:52:01 GMT" "/" ".bing.com" nil]
+  [url-cookie "SRCHHPGUSR" "SRCHLANG=zh-Hans" "Mon, 10-Nov-2025 07:52:01 GMT" "/" ".bing.com" nil]
+  [url-cookie "_HPVN" "CS=eyJQbiI6eyJDbiI6MSwiU3QiOjAsIlFzIjowLCJQcm9kIjoiUCJ9LCJTYyI6eyJDbiI6MSwiU3QiOjAsIlFzIjowLCJQcm9kIjoiSCJ9LCJReiI6eyJDbiI6MSwiU3QiOjAsIlFzIjowLCJQcm9kIjoiVCJ9LCJBcCI6dHJ1ZSwiTXV0ZSI6dHJ1ZSwiTGFkIjoiMjAyMy0xMS0xMFQwMDowMDowMFoiLCJJb3RkIjowLCJHd2IiOjAsIkRmdCI6bnVsbCwiTXZzIjowLCJGbHQiOjAsIkltcCI6MSwiSHRvYiI6MH0=" "Mon, 10-Nov-2025 07:52:01 GMT" "/" ".bing.com" nil]))
+)
+(setq url-cookie-secure-storage
+ 'nil)
+
+;; Local Variables:
+;; version-control: never
+;; no-byte-compile: t
+;; End:
