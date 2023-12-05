@@ -22,5 +22,7 @@
 
 (global-set-key (kbd "C-j") nil)             ; 解绑定
 
+(setq require-final-newline nil)		; 不自动插入新的行
+
 (provide 'common)
 ;;; common.el ends here

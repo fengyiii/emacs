@@ -19,6 +19,11 @@
   (dap-lldb-debugged-program-function
     (lambda () (read-file-name "Select file to debug: "))))
 
+(defun my-c-mode-hook ()
+ (setq c-basic-offset 4
+       c-indent-level 4
+       c-default-style "bsd"))
+(add-hook 'c-mode-common-hook'my-c-mode-hook)
 
 (provide 'init-cc)
 ;;; init-cc.el ends here
