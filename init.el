@@ -35,9 +35,9 @@
 (require 'init-git)
 (require 'init-cc)
 (require 'init-markdown)
-(require 'init-tab)
+;;(require 'init-tab)
 (require 'cc-mode)
-(require 'init-pinyin)
+;;(require 'init-pinyin)
 (require 'init-latex)
 (require 'init-org-download)
 
@@ -74,7 +74,7 @@
  '(mode-require-final-newline nil)
  '(objed-cursor-color "#E74C3C")
  '(package-selected-packages
-   '(docstr pdf-tools pyim xref helm-xref all-the-icons-ivy pack use-package))
+   '(modern-cpp-font-lock all-the-icons docstr pdf-tools xref helm-xref all-the-icons-ivy pack use-package))
  '(pdf-view-midnight-colors (cons "#F8F8F2" "#272822"))
  '(require-final-newline nil)
  '(rustic-ansi-faces
@@ -101,9 +101,16 @@
     (cons 340 "#555556")
     (cons 360 "#555556")))
  '(vc-annotate-very-old-color nil))
+;;(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+;; '(whitespace-tab ((t (:foreground "#636363")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(whitespace-tab ((t (:foreground "#636363")))))
+ )
+

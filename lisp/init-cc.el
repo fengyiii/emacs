@@ -2,28 +2,65 @@
 ;;; Commentary:
 ;;; Code:
 
-;; 需要安装 llvm clangd
-(use-package c++-mode
-  :functions 			; suppress warnings
-  c-toggle-hungry-state
-  :hook
-  (c-mode . lsp-deferred)
-  (c++-mode . lsp-deferred)
-  (c++-mode . c-toggle-hungry-state))
+;; =====================================================
+;; Programming Environment for C/C++ (using LSP)
+;; =====================================================
+;; Last modified on 27 Feb 2021
 
-(use-package dap-lldb
-  :after dap-mode
-  :custom
-  (dap-lldb-debug-program '("/usr/local/opt/llvm/bin/lldb-vscode"))
-  ;; ask user for executable to debug if not specified explicitly (c++)
-  (dap-lldb-debugged-program-function
-    (lambda () (read-file-name "Select file to debug: "))))
+;; Dependencies:
+;; - clangd: lsp C++ server, install by "brew install llvm"
+;; - cmake, bear: generating build flags, install by brew
+;;
+;; Generating "compile_commands.json":
+;; - cmake-based projects:
+;;   enable by "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1"
+;; - other build systems, use Bear:
+;;   run "make clean", then "bear -- make" to generate it.
 
-(defun my-c-mode-hook ()
- (setq c-basic-offset 4
-       c-indent-level 4
-       c-default-style "bsd"))
-(add-hook 'c-mode-common-hook'my-c-mode-hook)
+(use-package cc-mode
+  :ensure nil
+  :bind (:map c-mode-base-map
+              ("C-c C-c" . compile)
+	      ("C-c C-r" . compile-and-run))
+  :init
+  (setq-default c-default-style "linux"  ;; "stroustrup"
+                c-basic-offset 4)
+  :config
+  ;; code fontify
+  (use-package modern-cpp-font-lock
+    :diminish (modern-c++-font-lock-mode)
+    :init (modern-c++-font-lock-global-mode t))
+  )
+
+(defun compile-and-run ()
+  "Compile and run the current C/C++ file in Eshell."
+  (interactive)
+  (save-buffer)
+  (let* ((filename (buffer-file-name))
+	 (os-type (if (eq system-type 'windows-nt) "windows" "linux"))
+	 (cmd (pcase os-type
+		("windows" (format "make clean && make && %s.exe"
+				   (file-name-sans-extension filename)))
+		("linux" (format "make clean && make && %s"
+				 (file-name-sans-extension filename))))))
+    (eshell)
+    (eshell-send-input)
+    (insert cmd)
+    (eshell-send-input)))
+
+;; ------------------------------------------------
+;; Other editing supports
+;; ------------------------------------------------
+
+;; /smartparens/: insert pair of symbols
+;; when you press RET, the curly braces automatically add another newline
+(with-eval-after-load "smartparens"
+  (sp-with-modes '(c-mode c++-mode)
+    (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
+    (sp-local-pair "/*" "*/" :post-handlers '(("| " "SPC") ("* ||\n[i]" "RET")))))
+
+;; CMake supports
+(require 'init-cmake)
 
 (provide 'init-cc)
 ;;; init-cc.el ends here
