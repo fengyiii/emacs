@@ -21,7 +21,8 @@
   :ensure nil
   :bind (:map c-mode-base-map
               ("C-c C-c" . compile)
-	      ("C-c C-r" . compile-and-run))
+	      ("C-c C-a" . compile-all-and-run)
+	      ("C-c C-t" . compile-test-and-run))
   :init
   (setq-default c-default-style "linux"  ;; "stroustrup"
                 c-basic-offset 4)
@@ -32,17 +33,30 @@
     :init (modern-c++-font-lock-global-mode t))
   )
 
-(defun compile-and-run ()
+(defun compile-all-and-run ()
   "Compile and run the current C/C++ file in Eshell."
   (interactive)
   (save-buffer)
   (let* ((filename (buffer-file-name))
          (directory (file-name-directory filename))
-         (cmd (format "make clean && make && %s/demo.exe" directory)))
+         (cmd (format "make clean && make all && %s/demo.exe" directory)))
     (eshell)
     (eshell-send-input)
     (insert cmd)
     (eshell-send-input)))
+
+(defun compile-test-and-run ()
+  "Compile and run the current C/C++ file in Eshell."
+  (interactive)
+  (save-buffer)
+  (let* ((filename (buffer-file-name))
+         (directory (file-name-directory filename))
+         (cmd (format "make clean && make test && %s/demo.exe" directory)))
+    (eshell)
+    (eshell-send-input)
+    (insert cmd)
+    (eshell-send-input)))
+
 
 ;; ------------------------------------------------
 ;; Other editing supports
