@@ -37,12 +37,8 @@
   (interactive)
   (save-buffer)
   (let* ((filename (buffer-file-name))
-	 (os-type (if (eq system-type 'windows-nt) "windows" "linux"))
-	 (cmd (pcase os-type
-		("windows" (format "make clean && make && %s.exe"
-				   (file-name-sans-extension filename)))
-		("linux" (format "make clean && make && %s"
-				 (file-name-sans-extension filename))))))
+         (directory (file-name-directory filename))
+         (cmd (format "make clean && make && %s/demo.exe" directory)))
     (eshell)
     (eshell-send-input)
     (insert cmd)
