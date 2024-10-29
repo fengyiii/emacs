@@ -37,9 +37,12 @@
 (require 'init-markdown)
 ;;(require 'init-tab)
 (require 'cc-mode)
-;;(require 'init-pinyin)
+(require 'init-pinyin)
 (require 'init-latex)
 (require 'init-org-download)
+
+(setq server-use-tcp t)  ; 启用 TCP 连接（如果 Unix socket 有问题）
+;;(server-start)           ; 手动确保启动 Emacs 服务器
 
 ;; 去除#文件
 (setq create-lockfiles nil)
@@ -74,11 +77,12 @@
  '(mode-require-final-newline nil)
  '(objed-cursor-color "#E74C3C")
  '(package-selected-packages
-   '(modern-cpp-font-lock all-the-icons docstr pdf-tools xref helm-xref all-the-icons-ivy pack use-package))
+   '(general rime doom-themes modern-cpp-font-lock all-the-icons docstr pdf-tools xref helm-xref all-the-icons-ivy pack use-package))
  '(pdf-view-midnight-colors (cons "#F8F8F2" "#272822"))
  '(require-final-newline nil)
  '(rustic-ansi-faces
    ["#272822" "#E74C3C" "#A6E22E" "#E6DB74" "#268bd2" "#F92660" "#66D9EF" "#F8F8F2"])
+ '(safe-local-variable-values '((org-image-actual-width)))
  '(vc-annotate-background "#272822")
  '(vc-annotate-color-map
    (list

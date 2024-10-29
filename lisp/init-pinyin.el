@@ -2,75 +2,73 @@
 ;;; Commentary:
 ;;; Code:
 
-(require 'pyim)
-(require 'pyim-basedict) ; 拼音词库设置，五笔用户 *不需要* 此行设置
-(pyim-basedict-enable)   ; 拼音词库，五笔用户 *不需要* 此行设置
-(setq default-input-method "pyim")
+(use-package general
+  :ensure t)
 
-;; 配置
-
-(use-package pyim
-  :ensure nil
+(use-package rime
+  :ensure t
+  :general
+  ;; 配置快捷键
+  (:keymaps 'rime-active-mode-map
+            "M-DEL" 'rime--escape
+            "C-w" 'rime--escape)
+  (:keymaps '(evil-insert-state-map minibuffer-local-map ivy-minibuffer-map)
+            "C-\\" 'convert-code-or-disable-rime)
+  :custom
+  (default-input-method "rime")
   :config
-  ;; 激活 basedict 拼音词库
-  (use-package pyim-basedict
-    :ensure nil
-    :config (pyim-basedict-enable))
+  ;; 配置 `popup` 依赖包
+  (use-package popup)
 
-  ;; 五笔用户使用 wbdict 词库
-  ;; (use-package pyim-wbdict
-  ;;   :ensure nil
-  ;;   :config (pyim-wbdict-gbk-enable))
+  ;; 配置 Rime 的相关设置
+  (setq default-input-method "rime"
+        rime-user-data-dir "~/.config/emacs_rime"
+        rime-show-candidate 'posframe
+        rime-posframe-properties
+        (list :background-color "#333333"
+              :foreground-color "#dcdccc"
+              :internal-border-width 10))
 
-  (setq default-input-method "pyim")
+  ;; 手动同步 ibus 和 Emacs Rime 的用户数据
+  (defun sync-ibus-and-emacs-rime-userdb ()
+    (interactive)
+    (rime-sync)
+    (start-process-shell-command
+     ""
+     nil
+     "ibus exit;cd ~/.config/ibus/rime; rime_dict_manager -s;ibus-daemon --xim -d -r")
+    (message "ibus-rime and emacs rime sync done"))
 
-  ;; 我使用全拼
-  (setq pyim-default-scheme 'pyim-shuangpin)
+  ;; 光标颜色设置
+  (defvar input-method-cursor-color "white"
+    "Cursor color when an input method is active.")
+  (defvar default-cursor-color (frame-parameter nil 'cursor-color)
+    "Default cursor color.")
 
-  ;; 设置 pyim 探针设置，这是 pyim 高级功能设置，可以实现 *无痛* 中英文切换 :-)
-  ;; 我自己使用的中英文动态切换规则是：
-  ;; 1. 光标只有在注释里面时，才可以输入中文。
-  ;; 2. 光标前是汉字字符时，才能输入中文。
-  ;; 3. 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文。
-  (setq-default pyim-english-input-switch-functions
-                '(pyim-probe-dynamic-english
-                  pyim-probe-isearch-mode
-                  pyim-probe-program-mode
-                  pyim-probe-org-structure-template))
+  ;; 更新光标颜色函数
+  (defun change-cursor-color-on-input-method ()
+    "Change cursor color based on the input method status."
+    (interactive)
+    (set-cursor-color (if current-input-method
+                          input-method-cursor-color
+                        default-cursor-color)))
 
-  (setq-default pyim-punctuation-half-width-functions
-                '(pyim-probe-punctuation-line-beginning
-                  pyim-probe-punctuation-after-punctuation))
+  ;; 添加钩子和 advice，确保在切换输入法和命令执行时更新光标颜色
+  (add-hook 'post-command-hook 'change-cursor-color-on-input-method)
+  (advice-add 'toggle-input-method :after 'change-cursor-color-on-input-method)
 
-  ;; 开启拼音搜索功能
-  (pyim-isearch-mode 1)
-
-  ;; 使用 pupup-el 来绘制选词框
-  (setq pyim-page-tooltip 'popup)
-
-  ;; 选词框显示5个候选词
-  (setq pyim-page-length 5)
-
-  ;; 让 Emacs 启动时自动加载 pyim 词库
-  (add-hook 'emacs-startup-hook
-            #'(lambda () (pyim-restart-1 t)))
-  :bind
-  (("M-j" . pyim-convert-code-at-point) ;与 pyim-probe-dynamic-english 配合
-   ("C-;" . pyim-delete-word-from-personal-buffer)))
-
-
-
-
-;; 词库
-(setq pyim-dicts
-      '((:name "dict1" :file "/home/y/.emacs.d/lisp/dict/pyim-tsinghua-dict.pyim")))
-
-
-
-
-;; 使能
-(setq default-input-method "pyim")
-(global-set-key (kbd "C-\\") 'toggle-input-method)
-
+  ;; 配置 Rime 的禁用条件
+  (setq rime-disable-predicates
+        '(rime-predicate-after-ascii-char-p
+          rime-predicate-evil-mode-p
+          rime-predicate-punctuation-after-space-cc-p
+          rime-predicate-punctuation-after-ascii-p
+          rime-predicate-punctuation-line-begin-p
+          rime-predicate-org-in-src-block-p
+          rime-predicate-prog-in-code-p
+          rime-predicate-org-latex-mode-p
+          rime-predicate-space-after-cc-p
+          rime-predicate-current-uppercase-letter-p
+          rime-predicate-tex-math-or-command-p)))
 (provide 'init-pinyin)
 ;;; init-pinyin.el ends here
